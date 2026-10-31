@@ -1,0 +1,34 @@
+# 构建、安装及运行缓存
+build/
+install/
+log/
+__pycache__/
+*.py[cod]
+.venv/
+
+# 生成结果；保留目录占位与说明
+/out/*
+!/out/.gitkeep
+!/out/README.md
+
+# 输入与输出视频、模型和录制数据默认不放入普通 Git
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.m4v
+*.webm
+*.pt
+*.pth
+*.onnx
+*.engine
+*.weights
+*.bag
+*.db3
+*.mcap
+
+# 本地材料；保留目录占位、说明和指定考核视频
+/materials/*
+!/materials/.gitkeep
+!/materials/README.md
+!/materials/demo.mp4

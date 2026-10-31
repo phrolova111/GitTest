@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>a_star_ros2</name>
+  <version>0.0.1</version>
+  <description>ROS2 节点：地图发布 + A* 路径规划。</description>
+
+  <maintainer email="anon@todo.com">anon</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>a_star_core</exec_depend>
+
+  <test_depend>pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+
