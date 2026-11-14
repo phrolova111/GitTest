@@ -61,3 +61,148 @@ bash test.sh
 环境配置见[环境准备](../../ENV_SETUP.md)，神经网络与 PyTorch 教程见[学习资料与路径](../../LEARNING_RESOURCES.md)。
 
 [返回培训考核首页](../../README.md)
+
+
+
+
+
+
+## 实现与运行说明
+
+### 环境依赖
+
+- Ubuntu 22.04
+- Python 3.10.12
+- PyTorch 2.14.1+cpu
+- torchvision 0.29.2+cpu
+- 训练设备：CPU
+
+依赖安装：
+
+```bash
+python -m pip install torch==2.14.1 torchvision==0.29.2 \
+  --index-url https://download.pytorch.org/whl/cpu
+```
+
+### 实现思路
+
+使用 PyTorch 自定义 CNN，对 CIFAR-10 数据集进行 10 类图像分类。
+
+CIFAR-10 包含：
+
+- 50000 张训练图片
+- 10000 张测试图片
+- 图片尺寸为 32×32 RGB
+
+模型包含三个卷积阶段，特征图尺寸依次为：
+
+```text
+3×32×32 → 32×16×16 → 64×8×8 → 128×4×4
+```
+
+随后展平为 2048 维特征，经过全连接层输出 10 个类别分数。
+
+训练集使用随机裁剪、随机水平翻转和归一化。测试集只使用归一化，不使用随机增强。
+
+训练参数：
+
+- 训练轮数：10
+- batch size：64
+- 学习率：0.001
+- 损失函数：CrossEntropyLoss
+- 优化器：Adam
+
+
+### 训练
+
+执行目录：
+
+```bash
+cd task/Recognition
+```
+
+训练命令：
+
+```bash
+python src/train.py --epochs 10
+```
+
+权重保存位置：
+
+```text
+weights/best.pt
+weights/last.pt
+```
+
+### 评估
+
+```bash
+python src/evaluate.py --weights weights/best.pt
+```
+
+评估程序会重新创建模型，加载`best.pt`，并在完整测试集上计算总体准确率和各个分类的准确率
+
+
+### 测试
+
+```bash
+cd task/Recognition
+bash test.sh
+```
+
+### 实际测试结果
+
+- 测试集总样本数：10000
+- 正确分类数：8214
+- 总体准确率：82.14%
+- 测试损失：0.5290
+- 最佳结果出现在第 9 轮
+- 训练总时间：888.7 秒，约 14 分 49 秒
+
+分类准确率：
+
+```text
+airplane:   799/1000 (79.90%)
+automobile: 946/1000 (94.60%)
+bird:       658/1000 (65.80%)
+cat:        717/1000 (71.70%)
+deer:       857/1000 (85.70%)
+dog:        701/1000 (70.10%)
+frog:       841/1000 (84.10%)
+horse:      884/1000 (88.40%)
+ship:       911/1000 (91.10%)
+truck:      900/1000 (90.00%)
+```
+
+预测示例：
+
+```text
+true=cat, predicted=cat
+true=ship, predicted=ship
+true=ship, predicted=automobile
+true=airplane, predicted=ship
+true=frog, predicted=frog
+true=frog, predicted=frog
+true=automobile, predicted=automobile
+true=frog, predicted=frog
+true=cat, predicted=cat
+true=automobile, predicted=automobile
+```
+
+### 模型权重
+```text
+https://github.com/phrolova111/GitTest/releases/download/recognition-v1/best.pt
+```
+
+
+### 参考资料
+
+- PyTorch 基础教程：https://docs.pytorch.org/tutorials/beginner/basics/intro.html
+- PyTorch CIFAR-10 教程：https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
+- 《动手学深度学习》CNN：https://zh.d2l.ai/chapter_convolutional-neural-networks/index.html
+- CIFAR-10 数据集：https://www.cs.toronto.edu/~kriz/cifar.html
+
+
+### 未完成项
+
+无
